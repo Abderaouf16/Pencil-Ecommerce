@@ -15,6 +15,7 @@ import { MoreHorizontal } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { deleteProduct } from "@/server/actions/delete-product";
 import { toast } from "sonner";
+import Link from "next/link";
 
 
 type ProductColumn = {
@@ -39,8 +40,7 @@ const ActionCell = ({row} : {row :  Row<ProductColumn>}) => {
           }
         },
         onExecute : ( ) => {
-          const toastId = toast.loading('Deleting Product');
-          execute().finally(() => toast.dismiss(toastId)); 
+         toast.loading('Deleting Product');
         }
     })
 
@@ -52,7 +52,9 @@ const ActionCell = ({row} : {row :  Row<ProductColumn>}) => {
           <Button variant={'ghost'} ><MoreHorizontal className="w-4 h-4"/></Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem className=" cursor-pointer dark:focus:bg-primary focus:bg-primary/50" >Edit Product</DropdownMenuItem>
+          <DropdownMenuItem className=" cursor-pointer dark:focus:bg-primary focus:bg-primary/50" >
+          <Link href={`/dashboard/add-product?id=${product.id}`} >Edit Product</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem
           onClick={()=> execute({id: product.id})}
            className="dark:focus:bg-destructive focus:bg-destructive/50 cursor-pointer " >Delete Product</DropdownMenuItem>

@@ -1,13 +1,12 @@
 "use client";
 import { ProductSchema, zProductSchema } from "@/types/product-schema";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,8 +25,9 @@ import Tiptap from "./tip-tap";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
 import { createProduct } from "@/server/actions/create-product";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { getProducts } from "@/server/actions/get-products";
 
 export default function ProductForm() {
   const form = useForm<zProductSchema>({
@@ -40,24 +40,59 @@ export default function ProductForm() {
     mode: "onChange",
   });
   const { execute, status } = useAction(createProduct, {
-    onSuccess : (data) => {
+    onSuccess: (data) => {
       toast.dismiss(); // Dismiss the loading message
 
-        if(data.data?.error) {
-          toast.error(data.data.error)
+      if (data.data?.error) {
+        toast.error(data.data.error);
       }
-      if(data.data?.success) {
-        toast.success(data.data.success)
+      if (data.data?.success) {
+        router.push("/dashboard/products")
+        toast.success(data.data.success);
       }
     },
-    onExecute : ( ) => {
-      const toastId = toast.loading('Deleting Product');
-      execute().finally(() => toast.dismiss(toastId)); 
-    }
+    onExecute: () => {
+      toast.dismiss(); // Dismiss the loading message
+
+      if (editMode) {
+        toast.loading("Editing Product");
+
+      }
+      if (!editMode) {
+       toast.loading("Creating Product");
+
+      }
+    },
   });
 
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const editMode = searchParams.get("id");
+  const router = useRouter()
 
+  const checkProduct = async (id: number) => {
+    if (editMode) {
+      const data = await getProducts(id);
+      if(data?.error) {
+        toast.error(data.error)
+        router.push('/dashboard/products')
+        return
+    }
+    if(data?.success) {
+      const id = parseInt(editMode)
+      form.setValue("title" , data.success.title)
+      form.setValue("description" , data.success.description)
+      form.setValue("price" , data.success.price)
+      form.setValue('id' , id)
+
+    }
+    }
+  };
+
+  useEffect(() => {
+    if (editMode) {
+      checkProduct(parseInt(editMode));
+    }
+  }, []);
   function onSubmit(values: zProductSchema) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -67,8 +102,10 @@ export default function ProductForm() {
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Create Product</CardTitle>
-          <CardDescription>Add a brand new product</CardDescription>
+          <CardTitle> {editMode ? "Edit Product" : "Create Product"}</CardTitle>
+          <CardDescription> {editMode
+            ? "Make changes to existing product"
+            : "Add a brand new product"}</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -132,7 +169,7 @@ export default function ProductForm() {
                   !form.formState.isDirty
                 }
               >
-                Create Product
+                {editMode ? "Save Changes" : "Create Product"}
               </Button>
             </form>
           </Form>
