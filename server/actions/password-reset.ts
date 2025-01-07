@@ -6,7 +6,6 @@ import { eq } from "drizzle-orm";
 import { users } from "../schema";
 import { sendPasswordResetEmail } from "./email";
 import {  generatePasswordResetToken } from "./tokens";
-import { AuthError } from "next-auth";
 import { ResetSchema } from "@/types/reset-schema";
 
 const actionClient = createSafeActionClient();

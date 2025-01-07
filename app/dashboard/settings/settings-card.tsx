@@ -31,7 +31,7 @@ import { settings } from "@/server/actions/settings";
 import { FormError } from "@/components/auth/form-error";
 import { FormSuccess } from "@/components/auth/form.success";
 import { UploadButton } from "@/app/api/uploadthing/upload";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 
 
 type SettingsForm = {

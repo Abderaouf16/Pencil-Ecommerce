@@ -5,6 +5,7 @@ import Nav from "@/components/navigation/nav";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Inter, Roboto } from "next/font/google";
+import Toaster from "@/components/ui/toaster";
 
 const roboto = Roboto({
   weight: ["400", "500", "700", "900"],
@@ -31,6 +32,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Nav />
+          <Toaster/>
           {children}
         </ThemeProvider>
       </body>
