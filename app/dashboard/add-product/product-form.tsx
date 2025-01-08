@@ -162,6 +162,7 @@ export default function ProductForm() {
                 )}
               />
               <Button
+              className="w-full "
                 type="submit"
                 disabled={
                   status === "executing" ||
