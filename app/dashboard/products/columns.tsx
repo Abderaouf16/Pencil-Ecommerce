@@ -10,60 +10,70 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, PlusCircle } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import { deleteProduct } from "@/server/actions/delete-product";
 import { toast } from "sonner";
 import Link from "next/link";
-
+import { VariantsWithImagesTags } from "@/lib/infer-types";
+import ProductVariant from "./product-variant";
 
 type ProductColumn = {
   image: string;
   title: string;
   price: number;
-  variant: any;
+  variant: VariantsWithImagesTags[];
 };
 
+const ActionCell = ({ row }: { row: Row<ProductColumn> }) => {
+  const { status, execute } = useAction(deleteProduct, {
+    onSuccess: (data) => {
+      toast.dismiss(); // Dismiss the loading message
 
-const ActionCell = ({row} : {row :  Row<ProductColumn>}) => {
+      if (data.data?.error) {
+        toast.error(data.data.error);
+      }
+      if (data.data?.success) {
+        toast.success(data.data.success);
+      }
+    },
+    onExecute: () => {
+      toast.loading("Deleting Product");
+    },
+  });
 
-    const {status, execute} = useAction(deleteProduct, {
-        onSuccess : (data) => {
-          toast.dismiss(); // Dismiss the loading message
-
-            if(data.data?.error) {
-              toast.error(data.data.error)
-          }
-          if(data.data?.success) {
-            toast.success(data.data.success)
-          }
-        },
-        onExecute : ( ) => {
-         toast.loading('Deleting Product');
-        }
-    })
-
-
-    const product = row.original;
-    return (
-      <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild>
-          <Button variant={'ghost'} ><MoreHorizontal className="w-4 h-4"/></Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem className=" cursor-pointer dark:focus:bg-primary focus:bg-primary/50" >
-          <Link href={`/dashboard/add-product?id=${product.id}`} >Edit Product</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-          onClick={()=> execute({id: product.id})}
-           className="dark:focus:bg-destructive focus:bg-destructive/50 cursor-pointer " >Delete Product</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-}
-
-
+  const product = row.original;
+  return (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <Button variant={"ghost"}>
+          <MoreHorizontal className="w-4 h-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem className=" cursor-pointer dark:focus:bg-primary focus:bg-primary/50">
+          <Link href={`/dashboard/add-product?id=${product.id}`}>
+            Edit Product
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => execute({ id: product.id })}
+          className="dark:focus:bg-destructive focus:bg-destructive/50 cursor-pointer "
+        >
+          Delete Product
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 export const columns: ColumnDef<ProductColumn>[] = [
   {
@@ -76,7 +86,45 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     accessorKey: "variants",
-    header: "Varians",
+    header: "Variants",
+    cell: ({ row }) => {
+      const variants =
+        (row.getValue("variants") as VariantsWithImagesTags[]) ?? [];
+      return (
+        <div className="">
+          {variants.map((variant) => (
+            <div key={variant.id}>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                      <ProductVariant editMode={true} variant={variant} productID={variant.productID}>
+                      <div className="w-5 h-5 rounded-full"/>
+                    </ProductVariant>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{variant.productType}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          ))}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="text-primary">
+                  <ProductVariant editMode={false} productID={row.original.id}>
+                    <PlusCircle className="w-4 h-4" />
+                  </ProductVariant>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Create a new variant</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "price",
@@ -112,6 +160,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ActionCell
+    cell: ActionCell,
   },
 ];

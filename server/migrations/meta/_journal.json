@@ -71,6 +71,13 @@
       "when": 1736155433542,
       "tag": "0009_furry_grandmaster",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1736409629005,
+      "tag": "0010_misty_golden_guardian",
+      "breakpoints": true
     }
   ]
 }
