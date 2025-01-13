@@ -3,39 +3,41 @@ import { UploadThingError } from "uploadthing/server";
 
 const f = createUploadthing();
 
-const auth = (req: Request) => ({ id: "fakeId" }); // Fake auth function
+// Fake auth function for demonstration
+const auth = (req: Request) => ({ id: "fakeId" }); 
 
-// FileRouter for your app, can contain multiple FileRoutes
+// FileRouter for your app, can contain multiple file routes
 export const ourFileRouter = {
-  // Define as many FileRoutes as you like, each with a unique routeSlug
+  // Avatar uploader configuration
   avatarUploader: f({
     image: {
-      /**
-       * For full list of options and defaults, see the File Route API reference
-       * @see https://docs.uploadthing.com/file-routes#route-config
-       */
       maxFileSize: "2MB",
       maxFileCount: 1,
     },
   })
-    // Set permissions and file types for this FileRoute
-    /* .middleware(async ({ req }) => {
-      // This code runs on your server before upload
-      const user = await auth(req);
-
-      // If you throw, the user will not be able to upload
+    .middleware(async ({ req }) => {
+      const user = auth(req);
       if (!user) throw new UploadThingError("Unauthorized");
-
-      // Whatever is returned here is accessible in onUploadComplete as `metadata`
       return { userId: user.id };
-    }) */
+    })
     .onUploadComplete(async ({ metadata, file }) => {
-      // This code RUNS ON YOUR SERVER after upload
       console.log("Upload complete for userId:", metadata.userId);
+      console.log("File URL:", file.url);
+      return { uploadedBy: metadata.userId };
+    }),
 
-      console.log("file url", file.url);
-
-      // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
+  // Variant uploader configuration
+  variantUploader: f({
+    image: { maxFileCount: 10, maxFileSize: "4MB" },
+  })
+    .middleware(async ({ req }) => {
+      const user = auth(req);
+      if (!user) throw new UploadThingError("Unauthorized");
+      return { userId: user.id };
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("Upload complete for userId:", metadata.userId);
+      console.log("File URL:", file.url);
       return { uploadedBy: metadata.userId };
     }),
 } satisfies FileRouter;
