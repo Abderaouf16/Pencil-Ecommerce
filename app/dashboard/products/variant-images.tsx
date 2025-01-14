@@ -98,6 +98,7 @@ export default function VariantImages() {
             <TableRow>
               <TableHead>Order</TableHead>
               <TableHead>Name</TableHead>
+              <TableHead>Size</TableHead>
               <TableHead>Images</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
@@ -137,7 +138,7 @@ export default function VariantImages() {
                     {(field.size / (1024 * 1024)).toFixed(2)} MB
                   </TableCell>
                   <TableCell>
-                    <div className=" flex items-center justify-center">
+                    <div className=" ">
                       <Image src={field.url} alt={field.name} width={72} height={48} className=" rounded-md" />
                     </div>
                   </TableCell>

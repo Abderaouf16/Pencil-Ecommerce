@@ -78,7 +78,7 @@ export default function ProductVariant({
   }
 
   return (
-    <Dialog modal={false}>
+    <Dialog >
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="lg:max-w-screen-lg overflow-y-scroll max-h-[660px]">
         <DialogHeader>
