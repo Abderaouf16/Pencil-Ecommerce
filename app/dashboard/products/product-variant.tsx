@@ -5,7 +5,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -13,7 +12,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,7 +20,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { VariantsWithImagesTags } from "@/lib/infer-types";
 import { createVariant } from "@/server/actions/create-variant";
-import { productVariants } from "@/server/schema";
 import { VariantSchema, zVariantSchema } from "@/types/variant-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
@@ -30,6 +27,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { InputTags } from "./input-tags";
 import VariantImages from "./variant-images";
+import { useEffect, useState } from "react";
+import { deleteVariant } from "@/server/actions/delete-variant";
 
 export default function ProductVariant({
   children,
@@ -49,40 +48,105 @@ export default function ProductVariant({
       tags: [],
       productType: "black note book",
       variantImages: [],
-      id: undefined,
+      id: variant?.id,
       color: "#000000",
       productID,
     },
   });
+ 
+  const [open, setOpen] = useState(false)
+  
 
-  const {status, execute} = useAction(createVariant, {
+
+
+
+  const variantDelete = useAction(deleteVariant, {
+    onExecute () {
+      toast.dismiss(); // Dismiss the loading message
+      toast.loading( "Deleting product variant...");
+      setOpen(false)
+    },
     onSuccess: (data) => {
-        toast.dismiss(); // Dismiss the loading message
-  
-        if (data.data?.error) {
-          toast.error(data.data.error);
-        }
-        if (data.data?.success) {
-          toast.success(data.data.success);
-        }
-      },
-      onExecute: () => {
-        toast.dismiss(); // Dismiss the loading message  
-          toast.loading("Editing Product");
-  
-      },
+      toast.dismiss(); // Dismiss the loading message
+
+      if (data.data?.error) {
+        toast.error(data.data.error);
+      }
+      if (data.data?.success) {
+        toast.success(data.data.success);
+      }
+    },
   })
+
+
+
+  const { status, execute } = useAction(createVariant, {
+    onExecute () {
+      toast.dismiss(); // Dismiss the loading message
+      toast.loading(editMode ? "Updating product variant..." : "Creating product variant...");
+      setOpen(false)
+    },
+    onSuccess: (data) => {
+      toast.dismiss(); // Dismiss the loading message
+
+      if (data.data?.error) {
+        toast.error(data.data.error);
+      }
+      if (data.data?.success) {
+        toast.success(data.data.success);
+      }
+    },
+  
+  });
 
   function onSubmit(values: zVariantSchema) {
     execute(values);
   }
 
+  const handleDialogOpenChange = (open: boolean) => {
+    setOpen(open);
+    if (!open) {
+        form.reset(); // Reset when closing the dialog
+    }
+     if (editMode && variant) {
+        // Reset with variant data when editing
+        form.reset({
+            editMode: true,
+            tags: variant.variantTags?.map((tag) => tag.tag) || [],
+            productType: variant.productType,
+            variantImages: variant.variantImages?.map((img) => ({
+                name: img.name,
+                size: img.size,
+                url: img.url,
+            })) || [],
+            id: variant.id,
+            color: variant.color,
+            productID: variant.productID,
+        });
+    }
+    if (!editMode) {
+        // Reset to default values when creating a new variant
+        form.reset({
+            editMode: false,
+            tags: [],
+            productType: "black note book",
+            variantImages: [],
+            id: undefined,
+            color: "#000000",
+            productID,
+        });
+    }
+};
+
+
   return (
-    <Dialog >
+    <Dialog open={open} onOpenChange={handleDialogOpenChange}>
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="lg:max-w-screen-lg overflow-y-scroll max-h-[660px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl"> {editMode ? "Edit" : "Create Variant"}</DialogTitle>
+          <DialogTitle className="text-2xl">
+            {editMode ? "Edit Variant" : "Create Variant"}
+          </DialogTitle>
           <DialogDescription>
             Manage your product variants here. You can add tags, images, and
             more.
@@ -90,7 +154,7 @@ export default function ProductVariant({
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
+            <FormField
               control={form.control}
               name="productType"
               render={({ field }) => (
@@ -116,33 +180,49 @@ export default function ProductVariant({
                 </FormItem>
               )}
             />
-            
-           <FormField
+
+            <FormField
               control={form.control}
               name="tags"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tags</FormLabel>
                   <FormControl>
-                    <InputTags {...field}  onChange={(e) => field.onChange(e) } />
+                    <InputTags {...field} onChange={(e) => field.onChange(e)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            /> 
-            <VariantImages/>
+            />
+            <VariantImages />
+            <div className=" flex gap-4 items-center justify-center">
+           
+            <Button className="w-full "
+              type="submit"
+              disabled={
+                status === "executing" ||
+                !form.formState.isValid ||
+                !form.formState.isDirty
+              }
+            >
+              {editMode ? "Update Variant" : "Create Variant"}
+            </Button>
             {editMode && variant && (
-                <Button  type="button" onClick={(e) => e.preventDefault()}>
-                    Delete Variant 
-                </Button>
-            ) }
-            <Button 
-             type="submit"   disabled={
-                  status === "executing" ||
-                  !form.formState.isValid ||
-                  !form.formState.isDirty
-                } >
-                     {editMode ? 'Update Variant' : 'Create Variant'}</Button>
+              <Button
+                variant="destructive"
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  variantDelete.execute({id: variant.id})
+                } 
+                  
+                }
+              >
+                Delete Variant
+              </Button>
+            )}
+            </div>
+            
           </form>
         </Form>
       </DialogContent>

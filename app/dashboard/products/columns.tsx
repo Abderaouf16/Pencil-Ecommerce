@@ -6,8 +6,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -27,10 +25,11 @@ import { VariantsWithImagesTags } from "@/lib/infer-types";
 import ProductVariant from "./product-variant";
 
 type ProductColumn = {
-  image: string;
-  title: string;
-  price: number;
-  variant: VariantsWithImagesTags[];
+  title: string
+  price: number
+  image: string
+  variants: VariantsWithImagesTags[]
+  id: number
 };
 
 const ActionCell = ({ row }: { row: Row<ProductColumn> }) => {
@@ -88,17 +87,18 @@ export const columns: ColumnDef<ProductColumn>[] = [
     accessorKey: "variants",
     header: "Variants",
     cell: ({ row }) => {
-      const variants =
-        (row.getValue("variants") as VariantsWithImagesTags[]) ?? [];
+      const variants = (row.getValue("variants") as VariantsWithImagesTags[]) ?? [];
       return (
-        <div className="">
+        <div className="flex gap-2 items-center ">
           {variants.map((variant) => (
             <div key={variant.id}>
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                       <ProductVariant editMode={true} variant={variant} productID={variant.productID}>
-                      <div className="w-5 h-5 rounded-full"/>
+                      <div className="w-4 h-4 rounded-full"
+                      key={variant.id}
+                      style={{background: variant.color}}/>
                     </ProductVariant>
                   </TooltipTrigger>
                   <TooltipContent>
