@@ -53,18 +53,14 @@ export default function ProductVariant({
       productID,
     },
   });
- 
-  const [open, setOpen] = useState(false)
-  
 
-
-
+  const [open, setOpen] = useState(false);
 
   const variantDelete = useAction(deleteVariant, {
-    onExecute () {
+    onExecute() {
       toast.dismiss(); // Dismiss the loading message
-      toast.loading( "Deleting product variant...");
-      setOpen(false)
+      toast.loading("Deleting product variant...");
+      setOpen(false);
     },
     onSuccess: (data) => {
       toast.dismiss(); // Dismiss the loading message
@@ -76,15 +72,15 @@ export default function ProductVariant({
         toast.success(data.data.success);
       }
     },
-  })
-
-
+  });
 
   const { status, execute } = useAction(createVariant, {
-    onExecute () {
+    onExecute() {
       toast.dismiss(); // Dismiss the loading message
-      toast.loading(editMode ? "Updating product variant..." : "Creating product variant...");
-      setOpen(false)
+      toast.loading(
+        editMode ? "Updating product variant..." : "Creating product variant..."
+      );
+      setOpen(false);
     },
     onSuccess: (data) => {
       toast.dismiss(); // Dismiss the loading message
@@ -96,7 +92,6 @@ export default function ProductVariant({
         toast.success(data.data.success);
       }
     },
-  
   });
 
   function onSubmit(values: zVariantSchema) {
@@ -106,37 +101,40 @@ export default function ProductVariant({
   const handleDialogOpenChange = (open: boolean) => {
     setOpen(open);
     if (!open) {
-        form.reset(); // Reset when closing the dialog
+      form.reset(); // Reset when closing the dialog
+      return;
     }
-     if (editMode && variant) {
-        // Reset with variant data when editing
-        form.reset({
-            editMode: true,
-            tags: variant.variantTags?.map((tag) => tag.tag) || [],
-            productType: variant.productType,
-            variantImages: variant.variantImages?.map((img) => ({
-                name: img.name,
-                size: img.size,
-                url: img.url,
-            })) || [],
-            id: variant.id,
-            color: variant.color,
-            productID: variant.productID,
-        });
+    if (editMode && variant) {
+      // Reset with variant data when editing
+      form.reset({
+        editMode: true,
+        tags: variant.variantTags?.map((tag) => tag.tag) || [],
+        productType: variant.productType,
+        variantImages:
+          variant.variantImages?.map((img) => ({
+            name: img.name,
+            size: img.size,
+            url: img.url,
+          })) || [],
+        id: variant.id,
+        color: variant.color,
+        productID: variant.productID,
+      });
     }
     if (!editMode) {
-        // Reset to default values when creating a new variant
-        form.reset({
-            editMode: false,
-            tags: [],
-            productType: "black note book",
-            variantImages: [],
-            id: undefined,
-            color: "#000000",
-            productID,
-        });
+      // Reset to default values when creating a new variant
+      form.reset({
+        editMode: false,
+        tags: [],
+        productType: "black note book",
+        variantImages: [],
+        id: undefined,
+        color: "#000000",
+        productID,
+      });
     }
-};
+  }
+
 
 
   return (
@@ -196,33 +194,30 @@ export default function ProductVariant({
             />
             <VariantImages />
             <div className=" flex gap-4 items-center justify-center">
-           
-            <Button className="w-full "
-              type="submit"
-              disabled={
-                status === "executing" ||
-                !form.formState.isValid ||
-                !form.formState.isDirty
-              }
-            >
-              {editMode ? "Update Variant" : "Create Variant"}
-            </Button>
-            {editMode && variant && (
               <Button
-                variant="destructive"
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault()
-                  variantDelete.execute({id: variant.id})
-                } 
-                  
+                className="w-full "
+                type="submit"
+                disabled={
+                  status === "executing" ||
+                  !form.formState.isValid ||
+                  !form.formState.isDirty
                 }
               >
-                Delete Variant
+                {editMode ? "Update Variant" : "Create Variant"}
               </Button>
-            )}
+              {editMode && variant && (
+                <Button
+                  variant="destructive"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    variantDelete.execute({ id: variant.id });
+                  }}
+                >
+                  Delete Variant
+                </Button>
+              )}
             </div>
-            
           </form>
         </Form>
       </DialogContent>

@@ -24,17 +24,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(roboto.className, "px-6 md:px-12 max-w-5xl m-auto")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Nav />
-          <Toaster/>
-          {children}
-        </ThemeProvider>
+      <body className={roboto.className}>
+        <div className="px-6 md:px-12 max-w-5xl m-auto">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Nav />
+            <Toaster />
+            {children}
+          </ThemeProvider>
+        </div>
       </body>
     </html>
   );
