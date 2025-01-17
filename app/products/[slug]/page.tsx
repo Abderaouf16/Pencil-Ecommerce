@@ -1,0 +1,87 @@
+import ProductType from "@/components/products/product-type";
+import { db } from "@/server";
+import { productVariants } from "@/server/schema";
+import { eq } from "drizzle-orm";
+import { Separator } from "@/components/ui/separator";
+import formatPrice from "@/lib/format-price";
+import ProductPick from "@/components/products/product-picker";
+import ProductShowCase from "@/components/products/product-showcase";
+
+// func from nextjs to fetch data then render the other static pages
+// goal of the func: Goal: To tell Next.js which pages (slugs) should be pre-rendered at build time.
+
+export async function generateStaticParams() {
+  const data = await db.query.productVariants.findMany({
+    with: {
+      variantImages: true,
+      variantTags: true,
+      product: true,
+    },
+    orderBy: (productVariants, { desc }) => [desc(productVariants.id)],
+  });
+
+  if (data) {
+    //slug objects is used to generate static paths for a Next.js application. It helps Next.js pre-render
+    // pages for each product variant based on its unique slug.
+    const slugID = data.map((variant) => ({ slug: variant.id.toString() }));
+    return slugID;
+  }
+  return [];
+}
+
+export default async function page({ params }: { params: { slug: string } }) {
+  const variant = await db.query.productVariants.findFirst({
+    where: eq(productVariants.id, Number(params.slug)),
+    with: {
+      product: {
+        with: {
+          productVariants: {
+            with: { variantImages: true, variantTags: true },
+          },
+        },
+      },
+    },
+  });
+  if (variant) {
+    return (
+      <main>
+        <section className="flex flex-col gap-4 lg:flex-row lg:gap-12">
+          <div className=" flex-1">
+            <ProductShowCase variants={variant.product.productVariants}/>
+          </div>
+          <div className="flex flex-1 flex-col gap-2">
+            <h2 className="  font-bold text-2xl">{variant?.product.title}</h2>
+            <div className="">
+              <ProductType variants={variant.product.productVariants} />
+              <Separator className="my-2" />
+              <p className=" font-medium text-2xl py-2">
+                {formatPrice(variant.product.price)}
+              </p>
+              <div
+                className=" text-secondary-foreground"
+                dangerouslySetInnerHTML={{
+                  __html: variant.product.description,
+                }}
+              ></div>
+              <p className="text-secondary-foreground py-2 pb-3 font-medium">Available Colors</p>
+              <div className=" flex gap-2 items-center">
+                {variant.product.productVariants.map((proVariant) => (
+                  <ProductPick
+                    key={proVariant.id}
+                    id={proVariant.id}
+                    productType={proVariant.productType}
+                    price={variant.product.price}
+                    image={proVariant.variantImages[0].url}
+                    productID={proVariant.productID}
+                    color={proVariant.color}
+                    title={variant.product.title}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
+}
