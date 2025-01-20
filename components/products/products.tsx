@@ -34,7 +34,7 @@ export default function Products({ variants }: ProductTypes) {
                   {variant.productType}
                 </p>
               </div>
-              <Badge className="text-sm" variant={"secondary"}>
+              <Badge className="text-sm ml-2" variant={"secondary"}>
                 {formatPrice(variant.product.price)}
               </Badge>
             </div>

@@ -29,7 +29,7 @@ export default function ProductPick({
     style={{ background: color }}
       className={cn(
         "w-8 h-8 rounded-full cursor-pointer hover: opacity-75 transition-all ease-in-out duration-300 ",
-        selectedColor === productType ? ' opacity-100  ring-2 ring-muted-foreground' : " opacity-40"
+        selectedColor === productType ? ' opacity-100  ring-1 ring-muted-foreground' : " opacity-40"
 
       )}
       onClick={() =>

@@ -78,6 +78,13 @@
       "when": 1736409629005,
       "tag": "0010_misty_golden_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1737362138887,
+      "tag": "0011_sticky_barracuda",
+      "breakpoints": true
     }
   ]
 }

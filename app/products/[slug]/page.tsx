@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import formatPrice from "@/lib/format-price";
 import ProductPick from "@/components/products/product-picker";
 import ProductShowCase from "@/components/products/product-showcase";
+import Reviews from "@/components/reviews/reviews";
 
 // func from nextjs to fetch data then render the other static pages
 // goal of the func: Goal: To tell Next.js which pages (slugs) should be pre-rendered at build time.
@@ -81,6 +82,7 @@ export default async function page({ params }: { params: { slug: string } }) {
             </div>
           </div>
         </section>
+        <Reviews/>
       </main>
     );
   }
