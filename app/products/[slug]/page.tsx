@@ -82,7 +82,7 @@ export default async function page({ params }: { params: { slug: string } }) {
             </div>
           </div>
         </section>
-        <Reviews/>
+        <Reviews productID={variant.productID}/>
       </main>
     );
   }
