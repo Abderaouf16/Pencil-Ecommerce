@@ -9,6 +9,7 @@ import ProductShowCase from "@/components/products/product-showcase";
 import Reviews from "@/components/reviews/reviews";
 import { getReviewAverage } from "@/lib/review-average";
 import Stars from "@/components/reviews/starts";
+import AddCart from "@/components/cart/add-cart";
 
 // func from nextjs to fetch data then render the other static pages
 // goal of the func: Goal: To tell Next.js which pages (slugs) should be pre-rendered at build time.
@@ -78,10 +79,10 @@ export default async function page({ params }: { params: { slug: string } }) {
                 __html: variant.product.description,
               }}
             ></div>
-            <p className="text-secondary-foreground py-2 pb-3 font-medium">
+            <p className="text-secondary-foreground pt-2 pb-1 font-medium">
               Available Colors
             </p>
-            <div className=" flex gap-2 items-center">
+            <div className=" flex gap-2 items-center pb-2">
               {variant.product.productVariants.map((proVariant) => (
                 <ProductPick
                   key={proVariant.id}
@@ -95,6 +96,7 @@ export default async function page({ params }: { params: { slug: string } }) {
                 />
               ))}
             </div>
+          <AddCart/>
           </div>
         </section>
         <Reviews productID={variant.productID} />

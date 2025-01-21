@@ -17,7 +17,7 @@ export default function Products({ variants }: ProductTypes) {
         <div key={variant.id}>
           <Link
             className="py-2"
-            href={`/products/${variant.id}?id=${variant.id}&productID=${variant.productID}&price=${variant.product.price}&title=${variant.product.title}&type=${variant.productType}&image${variant.variantImages[0].url}`}
+            href={`/products/${variant.id}?id=${variant.id}&productID=${variant.productID}&price=${variant.product.price}&title=${variant.product.title}&type=${variant.productType}&image=${variant.variantImages[0].url}`}
           >
             <Image
               src={variant.variantImages[0].url}
