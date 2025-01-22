@@ -48,17 +48,20 @@ export default function AddCart() {
           <Plus size={18} />
         </Button>
       </div>
-      <Button
-      onClick={() => {
-        toast.success(`Added ${ type} to your cart!`)
-        addToCart({
-            id: productID,
-            variant: { variantID: id, quantity },
-            name: title + " " + type,
-            price,
-            image
-          })
-      }}>Add to cart</Button>
+      {image && (
+        <Button
+        onClick={() => {
+          toast.success(`Added ${ type} to your cart!`)
+          addToCart({
+              id: productID,
+              variant: { variantID: id, quantity },
+              name: title + " " + type,
+              price,
+              image
+            })
+        }}>Add to cart</Button>
+      ) }
+      
     </>
   );
 }

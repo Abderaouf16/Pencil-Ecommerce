@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <div className="px-6 md:px-12 max-w-5xl m-auto">
+        <div className="px-6 md:px-12 max-w-8xl m-auto">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

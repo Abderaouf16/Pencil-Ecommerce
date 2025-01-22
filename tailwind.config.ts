@@ -11,6 +11,12 @@ import { withUt } from "uploadthing/tw";
   ],
   theme: {
   	extend: {
+		maxWidth: {
+			'8xl' : "80rem"
+		},
+		minHeight: {
+			"50vh": "50vh"
+		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

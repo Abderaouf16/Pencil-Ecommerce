@@ -37,11 +37,13 @@ export default function CartDrawer() {
           <ShoppingCart />
         </div>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="min-h-50vh">
         <DrawerHeader>
           <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-          <CartItem />
         </DrawerHeader>
+        <div className=" overflow-auto p-8 ">
+          <CartItem />
+        </div>
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
