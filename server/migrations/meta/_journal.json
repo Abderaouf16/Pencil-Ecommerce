@@ -85,6 +85,13 @@
       "when": 1737362138887,
       "tag": "0011_sticky_barracuda",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1737583943232,
+      "tag": "0012_keen_firestar",
+      "breakpoints": true
     }
   ]
 }
