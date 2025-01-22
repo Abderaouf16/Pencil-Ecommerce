@@ -14,9 +14,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/lib/client-store";
 import CartItem from "./cart-items";
+import CartMessage from "./cart-message";
 
 export default function CartDrawer() {
-  const { cart } = useCartStore();
+  const { cart, checkoutProgress } = useCartStore();
 
   return (
     <Drawer>
@@ -39,16 +40,11 @@ export default function CartDrawer() {
       </DrawerTrigger>
       <DrawerContent className="min-h-50vh">
         <DrawerHeader>
-          <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+          <CartMessage/>
         </DrawerHeader>
         <div className=" overflow-auto p-8 ">
-          <CartItem />
+        {checkoutProgress === "cart-page" && <CartItem />}
         </div>
-        <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

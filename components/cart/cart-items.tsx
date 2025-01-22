@@ -19,7 +19,7 @@ import { createId } from "@paralleldrive/cuid2"
 
 
 export default function CartItem() {
-  const { cart, addToCart, removeFromCart } = useCartStore();
+  const { cart, addToCart, removeFromCart, setCheckoutProgress } = useCartStore();
   const totalPrice = useMemo(() => {
     return cart.reduce((acc, item) => {
         return acc + item.price! * item.variant.quantity
@@ -34,7 +34,7 @@ export default function CartItem() {
 
   return (
     <>
-      <motion.div>
+      <motion.div className=" flex flex-col items-center">
         {cart.length === 0 && (
           <div className=" flex flex-col w-full items-center justify-center">
             <motion.div
@@ -49,10 +49,10 @@ export default function CartItem() {
             </motion.div>
           </div>
         )}
-      </motion.div>
+     
       {cart.length > 0 && (
-        <div className="">
-          <Table>
+        <div className=" h-86 w-full  overflow-y-auto">
+          <Table className="max-w-2xl mx-auto">
             <TableHeader>
               <TableRow>
                 <TableCell>Product</TableCell>
@@ -134,6 +134,14 @@ export default function CartItem() {
             </motion.div>
           ))}
         </AnimatePresence>
+      </motion.div>
+      <Button className=" max-w-md w-full"
+      disabled= {cart.length === 0}
+      onClick={() => {
+        setCheckoutProgress('payment-page')
+      }}>
+        Checkout
+      </Button>
       </motion.div>
     </>
   );
