@@ -18,11 +18,11 @@ export default function AddCart() {
   const image = params.get("image")
   const {addToCart} = useCartStore()
 
-
+/* 
   if (!id || !productID || !title || !type || !price || !image) {
     toast.error("Product not found")
     return redirect("/")
-  } 
+  }  */
 
 
   return (

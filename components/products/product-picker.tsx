@@ -34,7 +34,7 @@ export default function ProductPick({
       )}
       onClick={() =>
         router.push(
-          `/products/${id}?id=${id}&productID=${productID}&price=${price}&title=${title}&type=${productType}&image${image}`,
+          `/products/${id}?id=${id}&productID=${productID}&price=${price}&title=${title}&type=${productType}&image=${image}`,
           { scroll: false }
         )
       }
