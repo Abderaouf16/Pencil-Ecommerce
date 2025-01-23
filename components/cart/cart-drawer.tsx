@@ -1,20 +1,16 @@
 "use client";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "../ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/lib/client-store";
 import CartItem from "./cart-items";
 import CartMessage from "./cart-message";
+import Payment from "./payment";
 
 export default function CartDrawer() {
   const { cart, checkoutProgress } = useCartStore();
@@ -44,6 +40,7 @@ export default function CartDrawer() {
         </DrawerHeader>
         <div className=" overflow-auto p-8 ">
         {checkoutProgress === "cart-page" && <CartItem />}
+        {checkoutProgress === "payment-page" && <Payment />}
         </div>
       </DrawerContent>
     </Drawer>

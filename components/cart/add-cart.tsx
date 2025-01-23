@@ -4,7 +4,7 @@ import { Minus, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
-import { redirect, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 import { useCartStore } from "@/lib/client-store";
 
 export default function AddCart() {
