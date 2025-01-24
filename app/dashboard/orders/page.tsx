@@ -40,6 +40,7 @@ import { formatDistance, subMinutes } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function OrdersPage() {
   const user = await auth();
@@ -101,7 +102,7 @@ export default async function OrdersPage() {
                     })}
                   </TableCell>
                   <TableCell>
-                    <Dialog >
+                    <Dialog>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant={"ghost"}>
@@ -112,8 +113,15 @@ export default async function OrdersPage() {
                           <DropdownMenuItem>
                             <DialogTrigger>View Details</DialogTrigger>
                           </DropdownMenuItem>
+                          {order.receiptURL ? (
+                            <DropdownMenuItem>
+                              <Link href={order.receiptURL} target="_blank">
+                                Download Receipt
+                              </Link>
+                            </DropdownMenuItem>
+                          ) : null}
                         </DropdownMenuContent>
-                        <DialogContent >
+                        <DialogContent>
                           <DialogHeader>
                             <DialogTitle>Order Details #{order.id}</DialogTitle>
                             <DialogDescription>
