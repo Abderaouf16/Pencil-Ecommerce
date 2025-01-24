@@ -101,7 +101,7 @@ export default async function OrdersPage() {
                     })}
                   </TableCell>
                   <TableCell>
-                    <Dialog>
+                    <Dialog >
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant={"ghost"}>
@@ -134,7 +134,7 @@ export default async function OrdersPage() {
                               <TableBody>
                                 {order.orderProduct.map(
                                   ({ product, productVariants, quantity }) => (
-                                    <TableRow key={product.id}>
+                                    <TableRow key={productVariants.id}>
                                       <TableCell>
                                         <Image
                                           className=" rounded-md"

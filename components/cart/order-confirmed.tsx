@@ -9,7 +9,7 @@ import orderConfirmedIcon from '@/public/order-confirme.json'
 
 
 export default function OrderConfirmed() {
-  const {setCheckoutProgress} = useCartStore()
+  const {setCheckoutProgress, setCartOpen} = useCartStore()
   return (
     <div className="flex flex-col items-center gap-4">
       <motion.div
@@ -26,6 +26,7 @@ export default function OrderConfirmed() {
           variant={"secondary"}
           onClick={() => {
             setCheckoutProgress("cart-page")
+            setCartOpen(false)
           }}
         >
           View your order

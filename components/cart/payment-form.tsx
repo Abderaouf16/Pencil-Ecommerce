@@ -88,7 +88,7 @@ onSuccess: (data) => {
         } else {
           setIsLoading(false)
             execute({
-                paymentIntentID: data.success.clientSecretID!,
+                paymentIntentID: data.success.paymentIntentID!,
                 status: "pending",
                 total: totalPrice,
                 products: cart.map((item) => ({
