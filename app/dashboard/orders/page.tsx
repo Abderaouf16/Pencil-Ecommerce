@@ -27,8 +27,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -105,7 +103,7 @@ export default async function OrdersPage() {
                   <TableCell>
                     <Dialog>
                       <DropdownMenu>
-                        <DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild>
                           <Button variant={"ghost"}>
                             <MoreHorizontal size={16} />
                           </Button>

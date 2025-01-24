@@ -13,7 +13,7 @@ import AddCart from "@/components/cart/add-cart";
 
 // func from nextjs to fetch data then render the other static pages
 // goal of the func: Goal: To tell Next.js which pages (slugs) should be pre-rendered at build time.
-
+export const revalidate = 120
 export async function generateStaticParams() {
   const data = await db.query.productVariants.findMany({
     with: {

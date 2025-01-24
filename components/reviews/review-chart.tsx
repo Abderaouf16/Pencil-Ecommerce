@@ -25,7 +25,7 @@ export default function ReviewChart({
     return ratingValues.map((rating) => (rating / totalReviews) * 100);
   }, [reviews]);
   return (
-    <Card className=" flex flex-col rounded-md gap-6 p-8 my-4">
+    <Card className=" flex flex-col rounded-lg gap-6 p-8 my-4">
       <div className=" flex flex-col gap-2 ">
         <CardTitle className=" font-bold text-xl"> Product Rating: </CardTitle>
         <CardDescription className="text-lg font-medium">{totalRating.toFixed(1)} stars </CardDescription>

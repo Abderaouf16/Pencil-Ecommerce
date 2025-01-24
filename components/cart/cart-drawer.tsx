@@ -17,7 +17,7 @@ export default function CartDrawer() {
   const { cart, checkoutProgress,setCartOpen ,cartOpen } = useCartStore();
 
   return (
-    <Drawer open={cartOpen} onOpenChange={setCartOpen}>
+    <Drawer open={cartOpen} onOpenChange={setCartOpen} >
       <DrawerTrigger asChild>
         <div className=" cursor-pointer relative px-2">
           <AnimatePresence>
@@ -35,11 +35,11 @@ export default function CartDrawer() {
           <ShoppingCart />
         </div>
       </DrawerTrigger>
-      <DrawerContent className="min-h-50vh">
+      <DrawerContent className="fixed bottom-0 left-0 max-h-[80vh] min-h-[50vh]">
         <DrawerHeader>
           <CartMessage/>
         </DrawerHeader>
-        <div className=" overflow-auto p-8 ">
+        <div className=" overflow-auto p-4  ">
         {checkoutProgress === "cart-page" && <CartItem />}
         {checkoutProgress === "payment-page" && <Payment />}
         {checkoutProgress === "confirmation-page" && <OrderConfirmed/>}

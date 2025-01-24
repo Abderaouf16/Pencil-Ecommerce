@@ -9,7 +9,7 @@ export default function CartMessage() {
   const { checkoutProgress, setCheckoutProgress } = useCartStore();
 
   return (
-    <motion.div>
+    <motion.div className=" text-center" initial={{opacity:0, x:10}} animate={{opacity:1, x:0}}>
       <DrawerTitle>
         {checkoutProgress === "cart-page" ? "Your Cart Items" : null}
         {checkoutProgress === "payment-page" ? "Choose a payment method" : null}
