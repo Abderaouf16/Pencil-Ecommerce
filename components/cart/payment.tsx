@@ -15,6 +15,8 @@ export default function Payment() {
     const totalPrice = cart.reduce((acc, item) => {
        return acc + item.price * item.variant.quantity
     },0)
+    const totalPriceCents = Math.round(totalPrice * 100);
+
 
     return(
         <motion.div className="max-w-2xl mx-auto">
@@ -23,7 +25,7 @@ export default function Payment() {
             options={{
                 mode: 'payment',
                 currency:'usd',
-                amount: totalPrice *100,
+                amount: totalPriceCents,
                 appearance: { theme: theme === "dark" ? "night" : "flat" },
 
             }}>

@@ -124,7 +124,11 @@ export default function UserButton({ user }: Session) {
             </DropdownMenuItem>
           )}
           <DropdownMenuItem
-            onClick={() => signOut()}
+            onClick={() => {
+              signOut()
+              router.push('/auth/login')
+            } 
+          }
             className="py-2 group focus:bg-destructive/15 font-medium cursor-pointer"
           >
             <LogOut
