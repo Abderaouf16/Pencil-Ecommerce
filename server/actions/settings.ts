@@ -51,7 +51,7 @@ import { revalidatePath } from "next/cache";
         newPassword = undefined
     }
 
-    const updateUser = await db.update(users).set({
+    await db.update(users).set({
         twoFactorEnabled: isTwoFactorEnabled,
         name: name,
         email: email,

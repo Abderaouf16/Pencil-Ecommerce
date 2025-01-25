@@ -15,7 +15,7 @@ export async function  getProducts( id: number) {
         if (!product) throw new Error ('Product not found')
             return {success : product}
     } catch (error) {
-
+        console.error(error); // Log the error
         return {error: "Field to get product"}
     }
 } 

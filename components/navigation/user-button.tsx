@@ -1,39 +1,41 @@
 "use client";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
-import React, { useState } from "react";
-import { Button } from "../ui/button";
+import React, { useState, useEffect } from "react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 import { LogOut, Moon, Settings, Sun, TruckIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Switch } from "@/components/ui/switch"
 import { useTheme } from "next-themes";
 
-
 export default function UserButton({ user }: Session) {
   const router = useRouter();
-  const { setTheme, theme } = useTheme()
-  const [checked, setChecked] = useState(false)
-  function setSwitchState() {
+  const { setTheme, theme } = useTheme();
+  const [checked, setChecked] = useState(false);
+
+  // Set the initial switch state based on the theme
+  useEffect(() => {
     switch (theme) {
       case "dark":
-        return setChecked(true)
+        setChecked(true);
+        break;
       case "light":
-        return setChecked(false)
+        setChecked(false);
+        break;
       case "system":
-        return setChecked(false)
+        setChecked(false); // or true based on system preference if needed
+        break;
     }
-  }
+  }, [theme]);
 
   return (
     <div>
@@ -54,18 +56,17 @@ export default function UserButton({ user }: Session) {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-64 p-6" align="end">
           <div className=" mb-4 p-4 flex flex-col gap-1 items-center rounded-lg  bg-primary/10">
-           
             <Avatar>
-            {user?.image && (
-              <Image
-                className=" rounded-full"
-                src={user.image}
-                alt={user.name!}
-                width={40}
-                height={40}
-              />
-            )}
-          </Avatar>
+              {user?.image && (
+                <Image
+                  className=" rounded-full"
+                  src={user.image}
+                  alt={user.name!}
+                  width={40}
+                  height={40}
+                />
+              )}
+            </Avatar>
             <p className=" font-bold text-xs mt-2">{user?.name}</p>
             <span className=" text-xs  font-normal  text-secondary-foreground">
               {user?.email}
@@ -115,9 +116,9 @@ export default function UserButton({ user }: Session) {
                   className="scale-75 "
                   checked={checked}
                   onCheckedChange={(e) => {
-                    setChecked((prev) => !prev)
-                    if (e) setTheme("dark")
-                    if (!e) setTheme("light")
+                    setChecked((prev) => !prev);
+                    if (e) setTheme("dark");
+                    if (!e) setTheme("light");
                   }}
                 />
               </div>
@@ -125,10 +126,9 @@ export default function UserButton({ user }: Session) {
           )}
           <DropdownMenuItem
             onClick={() => {
-              signOut()
-              router.push('/auth/login')
-            } 
-          }
+              signOut();
+              router.push('/auth/login');
+            }}
             className="py-2 group focus:bg-destructive/15 font-medium cursor-pointer"
           >
             <LogOut

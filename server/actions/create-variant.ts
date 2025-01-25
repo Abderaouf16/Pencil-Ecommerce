@@ -6,7 +6,6 @@ import { eq } from "drizzle-orm";
 import { VariantSchema } from "@/types/variant-schema";
 import { products, productVariants, variantImages, variantTags } from "../schema";
 import { revalidatePath } from "next/cache";
-import  {algoliasearch}  from 'algoliasearch';
 
 const actionClient = createSafeActionClient();
 
@@ -82,7 +81,7 @@ export const createVariant = actionClient
             })
             .returning();
 
-            const product = await db.query.products.findFirst({
+             await db.query.products.findFirst({
               where: eq(products.id , productID)
             })
 
@@ -115,6 +114,7 @@ export const createVariant = actionClient
           return { success: "Product Variant Created" };
         }
       } catch (error) {
+        console.error(error); // Log the error
         return { error: "Failed to create variant" };
       }
     }

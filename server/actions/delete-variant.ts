@@ -20,6 +20,7 @@ export const deleteVariant = actionClient
       revalidatePath("/dashboard/products");
       return { success: "Product Variant Deleted" };
     } catch (error) {
+      console.error(error); // Log the error
       return { error: "Field deleting variant" };
     }
   });

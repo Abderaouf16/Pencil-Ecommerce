@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table"; // Import Row here
 import Image from "next/image";
 import {
   DropdownMenu,
@@ -25,15 +25,15 @@ import { VariantsWithImagesTags } from "@/lib/infer-types";
 import ProductVariant from "./product-variant";
 
 type ProductColumn = {
-  title: string
-  price: number
-  image: string
-  variants: VariantsWithImagesTags[]
-  id: number
+  title: string;
+  price: number;
+  image: string;
+  variants: VariantsWithImagesTags[];
+  id: number;
 };
 
 const ActionCell = ({ row }: { row: Row<ProductColumn> }) => {
-  const { status, execute } = useAction(deleteProduct, {
+  const { execute } = useAction(deleteProduct, {
     onSuccess: (data) => {
       toast.dismiss(); // Dismiss the loading message
 
@@ -95,7 +95,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                      <ProductVariant editMode={true} variant={variant} productID={variant.productID}>
+                    <ProductVariant editMode={true} variant={variant} productID={variant.productID}>
                       <div className="w-4 h-4 rounded-full"
                       key={variant.id}
                       style={{background: variant.color}}/>
@@ -140,7 +140,7 @@ export const columns: ColumnDef<ProductColumn>[] = [
   },
   {
     accessorKey: "image",
-    header: "Imge",
+    header: "Image",
     cell: ({ row }) => {
       const cellImage = row.getValue("image") as string;
       const cellTitle = row.getValue("title") as string;

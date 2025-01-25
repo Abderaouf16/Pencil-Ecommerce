@@ -7,7 +7,6 @@ import {
   Bold,
   Italic,
   List,
-  ListIcon,
   ListOrdered,
   Strikethrough,
 } from "lucide-react";

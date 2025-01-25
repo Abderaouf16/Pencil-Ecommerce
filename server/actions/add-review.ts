@@ -26,7 +26,7 @@ export const addReview = actionClient
 
       if(reviewExists) return {error: "You have already reviewed this product"}
 
-      const newReview = await db.insert(reviews)
+       await db.insert(reviews)
       .values({
         comment,
         rating,

@@ -19,7 +19,7 @@ export default function ProductTags() {
   };
 
   return (
-    <div className="flex items-center gap-4 justify-center my-6">
+    <div className="flex items-center gap-4 justify-center mb-8">
       <Badge
         onClick={() => setFilter("")}
         className={cn(

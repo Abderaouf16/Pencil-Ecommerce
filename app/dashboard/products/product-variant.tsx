@@ -27,7 +27,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { InputTags } from "./input-tags";
 import VariantImages from "./variant-images";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { deleteVariant } from "@/server/actions/delete-variant";
 
 export default function ProductVariant({

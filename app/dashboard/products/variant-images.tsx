@@ -39,7 +39,7 @@ export default function VariantImages() {
       <FormField
         control={control}
         name="variantImages"
-        render={({ field }) => (
+        render={() => (
           <FormItem>
             <FormLabel>Images</FormLabel>
             <FormControl>

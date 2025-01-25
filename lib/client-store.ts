@@ -33,7 +33,7 @@ export const useCartStore = create<CartState>()(
       setCartOpen: (val) => set({ cartOpen: val }),
       clearCart: () => set({ cart: [] }),
       checkoutProgress: 'cart-page',
-      setCheckoutProgress: (val) => set((state) => ({
+      setCheckoutProgress: (val) => set(() => ({
         checkoutProgress: val
       })),
       addToCart: (item) =>

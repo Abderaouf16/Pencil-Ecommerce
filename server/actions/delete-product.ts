@@ -18,6 +18,7 @@ export const deleteProduct = clientAction
       revalidatePath("/dashboard/products");
       return { success: "Product Deleted" };
     } catch (error) {
+      console.error(error); // Log the error
       return { error: "field to delete product" };
     }
   });
