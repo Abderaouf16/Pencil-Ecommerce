@@ -5,15 +5,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
 import formatPrice from "@/lib/format-price";
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
 type ProductTypes = {
   variants: VariantsWithProduct[];
 };
 
 export default function Products({ variants }: ProductTypes) {
+
+  const params = useSearchParams();
+  const paramTag = params.get("tag");
+
+  const filteredVariants = useMemo(() => {
+    if(paramTag && variants) {
+       return variants.filter((variant) => 
+      variant.variantTags.some((tag) => tag.tag === paramTag))
+    }
+    return variants
+  }, [paramTag])
+
   return (
     <main className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-      {variants.map((variant) => (
+      {filteredVariants.map((variant) => (
         <div key={variant.id}>
           <Link
             className="py-2"
