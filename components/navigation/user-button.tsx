@@ -32,7 +32,7 @@ export default function UserButton({ user }: Session) {
         setChecked(false);
         break;
       case "system":
-        setChecked(false); // or true based on system preference if needed
+        setChecked(true); // or true based on system preference if needed
         break;
     }
   }, [theme]);

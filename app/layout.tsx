@@ -27,7 +27,7 @@ export default function RootLayout({
         <div className="px-6 md:px-12 max-w-8xl m-auto">
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light" 
             enableSystem
             disableTransitionOnChange
           >

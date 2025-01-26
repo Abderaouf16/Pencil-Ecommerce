@@ -49,4 +49,5 @@ export const emailRgister = actionClient
     );
 
     return { success: "Confirmation email sent!" };
+    
   });
