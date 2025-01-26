@@ -11,7 +11,10 @@ export default function Socials() {
       <Button
         className="flex w-full "
         variant={"secondary"}
-        onClick={() => signIn("google")}
+        onClick={() => signIn("google",{
+          redirect:false,
+          callbackUrl: '/'
+        })}
       >
         <p className="pr-1"> Sign in with Google</p>
         <FcGoogle style={{ width: '18px', height: '18px' }}  />
@@ -19,7 +22,10 @@ export default function Socials() {
       <Button
         className="flex w-full "
         variant={"secondary"}
-        onClick={() => signIn("github")}
+        onClick={() => signIn("github", {
+           redirect:false,
+          callbackUrl: '/'
+        })}
       >
         <p className="pr-1"> Sign in with Google</p>
         <FaGithub style={{ width: '18px', height: '20px' }}  />
