@@ -50,7 +50,7 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
       setIsLoading(false);
       return;
     }
-    const { data } = await createPaymentIntent({
+    const data = await createPaymentIntent({
       amount: totalPrice * 100,
       currency: "usd",
       cart: cart.map((item) => ({
@@ -62,21 +62,21 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
       })),
     });
 
-    if (data?.error) {
-      setErrorMessage(data.error);
+    if (data?.data?.error) {
+      setErrorMessage(data.data.error);
       setIsLoading(false);
       router.push("/auth/login");
       setCartOpen(false);
       return;
     }
-    if (data?.success) {
+    if (data?.data?.success) {
       const { error } = await stripe.confirmPayment({
         elements,
-        clientSecret: data.success.clientSecretID!,
+        clientSecret: data.data.success.clientSecretID!,
         redirect: "if_required",
         confirmParams: {
           return_url: "http://localhost:3000/success",
-          receipt_email: data.success.user as string,
+          receipt_email: data.data.success.user as string,
         },
       });
       if (error) {
@@ -86,7 +86,7 @@ export default function PaymentForm({ totalPrice }: { totalPrice: number }) {
       } else {
         setIsLoading(false);
         execute({
-          paymentIntentID: data.success.paymentIntentID!,
+          paymentIntentID: data.data.success.paymentIntentID!,
           status: "pending",
           total: totalPrice,
           products: cart.map((item) => ({

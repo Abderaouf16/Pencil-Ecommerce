@@ -22,7 +22,7 @@ export default function ProductShowCase({
   const [activeThumbnail, setActiveThumbnail] = useState([0]);
 
   const searchParams = useSearchParams();
-  const selectedVariant = searchParams.get("type" || variants[0].productType);
+  const selectedVariant = searchParams.get("type" /* || variants[0].productType */);
 
   function updatePreview (index: number) {
     api?.scrollTo(index)
