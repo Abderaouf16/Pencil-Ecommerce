@@ -7,6 +7,14 @@ import Link from "next/link";
 import { LogInIcon } from "lucide-react";
 import CartDrawer from "../cart/cart-drawer";
 
+import { Meow_Script } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const meowScript = Meow_Script({
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export default async function nav() {
   const session = await auth();
   return (
@@ -14,11 +22,14 @@ export default async function nav() {
       <nav>
         <ul className="flex justify-between items-center gap-4 md:gap-10">
           <li className="flex flex-1 ">
-            <Link href="/">Home</Link>
+            <Link href="/" className={cn(meowScript.className, "text-3xl")}>
+              Excellence
+            </Link>
           </li>
           <li className="flex items-center hover:text-primary p-2 rounded-md transition-all ease-in-out duration-300 ">
             <CartDrawer />
           </li>
+          
           {!session ? (
             <li>
               <Button>
