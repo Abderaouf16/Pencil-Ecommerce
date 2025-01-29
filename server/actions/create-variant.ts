@@ -6,15 +6,16 @@ import { eq } from "drizzle-orm";
 import { VariantSchema } from "@/types/variant-schema";
 import { products, productVariants, variantImages, variantTags } from "../schema";
 import { revalidatePath } from "next/cache";
+import algoliasearch from 'algoliasearch';
 
 const actionClient = createSafeActionClient();
 
-/* const client = algoliasearch(
+ const client = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_ID!,
   process.env.ALGOLIA_ADMIN!, 
-) */
-
-
+) 
+const indexName = "products";
+const algoliaIndex = client.initIndex(indexName);
 
 export const createVariant = actionClient
   .schema(VariantSchema)
@@ -59,12 +60,12 @@ export const createVariant = actionClient
               order: idx,
             }))
           );
-       /*    client.partialUpdateObject({
+          algoliaIndex.partialUpdateObject({
             objectID: editVariant[0].id.toString(),
             id: editVariant[0].productID,
             productType: editVariant[0].productType,
             variantImages: newImgs[0].url,
-          }) */
+          })
       
           revalidatePath("/dashboard/products");
           return { success: `Product Variant Updated` };
@@ -81,8 +82,8 @@ export const createVariant = actionClient
             })
             .returning();
 
-             await db.query.products.findFirst({
-              where: eq(products.id , productID)
+            const product = await db.query.products.findFirst({
+              where: eq(products.id, productID),
             })
 
           await db.insert(variantTags).values(
@@ -100,16 +101,16 @@ export const createVariant = actionClient
               order: idx,
             }))
           );
-        /*   if(product) {
-            client.initIndex("products").saveObject({
+          if (product) {
+            algoliaIndex.saveObject({
               objectID: newVariant[0].id.toString(),
               id: newVariant[0].productID,
               title: product.title,
               price: product.price,
               productType: newVariant[0].productType,
               variantImages: newImgs[0].url,
-            });
-          } */
+            })
+          }
           revalidatePath("/dashboard/products");
           return { success: "Product Variant Created" };
         }
