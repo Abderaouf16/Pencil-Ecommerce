@@ -22,16 +22,16 @@ export default function Logo() {
     <div>
       <Link
         href="/"
-        className={cn(meowScript.className, "text-3xl flex  gap-1")}
+        className={cn(meowScript.className, "md:text-3xl text-2xl flex  gap-1")}
       >
         Excellence
         {theme === "light" ? (
           <div className="">
-            <Image src={logoIconBlack} width={30} height={30} alt="j" />
+            <Image src={logoIconBlack} width={30} height={30} alt="logo" />
           </div>
         ) : (
           <div className="">
-            <Image src={logoIconWhite} width={30} height={30} alt="j" />
+            <Image src={logoIconWhite} width={30} height={30} alt="logo" />
           </div>
         )}
       </Link>

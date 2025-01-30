@@ -10,12 +10,12 @@ import algoliasearch from 'algoliasearch';
 
 const actionClient = createSafeActionClient();
 
- const client = algoliasearch(
+/*  const client = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_ID!,
   process.env.ALGOLIA_ADMIN!, 
 ) 
 const indexName = "products";
-const algoliaIndex = client.initIndex(indexName);
+const algoliaIndex = client.initIndex(indexName); */
 
 export const createVariant = actionClient
   .schema(VariantSchema)
@@ -60,13 +60,13 @@ export const createVariant = actionClient
               order: idx,
             }))
           );
-          algoliaIndex.partialUpdateObject({
+        /*   algoliaIndex.partialUpdateObject({
             objectID: editVariant[0].id.toString(),
             id: editVariant[0].productID,
             productType: editVariant[0].productType,
             variantImages: newImgs[0].url,
           })
-      
+       */
           revalidatePath("/dashboard/products");
           return { success: `Product Variant Updated` };
       }
@@ -82,7 +82,7 @@ export const createVariant = actionClient
             })
             .returning();
 
-            const product = await db.query.products.findFirst({
+             await db.query.products.findFirst({
               where: eq(products.id, productID),
             })
 
@@ -101,7 +101,7 @@ export const createVariant = actionClient
               order: idx,
             }))
           );
-          if (product) {
+         /*  if (product) {
             algoliaIndex.saveObject({
               objectID: newVariant[0].id.toString(),
               id: newVariant[0].productID,
@@ -110,7 +110,7 @@ export const createVariant = actionClient
               productType: newVariant[0].productType,
               variantImages: newImgs[0].url,
             })
-          }
+          } */
           revalidatePath("/dashboard/products");
           return { success: "Product Variant Created" };
         }

@@ -16,7 +16,7 @@ export default async function nav() {
   return (
     <header className="py-12">
       <nav>
-        <ul className="flex justify-between items-center gap-4 md:gap-6">
+        <ul className="flex justify-between items-center gap-1 sm:gap-2 md:gap-6">
           <li className="flex flex-1 ">
            <Logo/>
           </li>

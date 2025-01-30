@@ -33,7 +33,7 @@ export default function CartDrawer() {
               </motion.span>
             )}
           </AnimatePresence>
-          <ShoppingCart />
+          <ShoppingCart  />
         </div>
       </DrawerTrigger>
       <DrawerContent className="fixed bottom-0 left-0 max-h-[80vh] min-h-[50vh]">

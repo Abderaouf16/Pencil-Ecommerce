@@ -21,7 +21,7 @@ export default async function Home() {
 
   return (
    <main>
-    <Algolia/>
+    {/* <Algolia/> */}
     <ProductTags/>
     <Products variants={data} />
    </main>

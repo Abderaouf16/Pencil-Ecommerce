@@ -1,13 +1,13 @@
-"use client";
+/* "use client";
 
-import { InstantSearchNext } from "react-instantsearch-nextjs";
-import { SearchBox, Hits } from "react-instantsearch";
-import { searchClient } from "@/lib/algolia-client";
 import Link from "next/link";
 import Image from "next/image";
 import { Card } from "../ui/card";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { InstantSearch, SearchBox, Hits } from 'react-instantsearch';
+import {searchClient} from '@/lib/algolia-client'
+
 
 function Hit({
   hit,
@@ -48,7 +48,7 @@ function Hit({
             alt={hit.title}
             width={80}
             height={80}
-            className=" rounded-sm"
+            className=" rounded-md"
           />
           <p
             className="text-sm"
@@ -75,7 +75,7 @@ export default function Algolia() {
 
   const MCard = useMemo(() => motion(Card), []);
   return (
-    <InstantSearchNext
+    <InstantSearch
       future={{
         persistHierarchicalRootCount: true,
         preserveSharedStateOnUnmount: true,
@@ -106,13 +106,14 @@ export default function Algolia() {
               animate={{ opacity: 1, scale: 1 }}
               initial={{ opacity: 0, scale: 0.8 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="absolute w-full z-50 overflow-y-scroll h-80"
+              className="absolute w-full z-50 overflow-y-scroll "
             >
-              <Hits hitComponent={Hit} className="rounded-md" />
+              <Hits hitComponent={Hit}  />
             </MCard>
           )}
         </AnimatePresence>
       </div>
-    </InstantSearchNext>
+    </InstantSearch>
   );
 }
+ */
