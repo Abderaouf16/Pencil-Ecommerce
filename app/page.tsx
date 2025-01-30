@@ -9,7 +9,6 @@ export const revalidate = 3600 // next 15 do not except math equation
 
 export default async function Home() {
 
-  
 
   const data = await db.query.productVariants.findMany({
     with: {

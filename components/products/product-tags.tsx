@@ -23,7 +23,7 @@ export default function ProductTags() {
       <Badge
         onClick={() => setFilter("")}
         className={cn(
-          "cursor-pointer bg-black hover:bg-black/75 dark:border dark:border-gray-600 hover:opacity-100 transition-all ease-in-out",
+          "cursor-pointer bg-gray-700 hover:bg-gray-600 dark:border hover:opacity-100 transition-all ease-in-out",
           !tag ? "opacity-100" : "opacity-50"
         )}
       >
@@ -32,7 +32,7 @@ export default function ProductTags() {
       <Badge
         onClick={() => setFilter("notebook")}
         className={cn(
-          "cursor-pointer bg-gray-500 hover:bg-gray-600 hover:opacity-100 transition-all ease-in-out",
+          "cursor-pointer bg-gray-700 hover:bg-gray-600 hover:opacity-100 transition-all ease-in-out",
           tag === "notebook" && tag ? "opacity-100" : "opacity-50"
         )}
       >
@@ -41,7 +41,7 @@ export default function ProductTags() {
       <Badge
         onClick={() => setFilter("pen")}
         className={cn(
-          "cursor-pointer bg-gray-500 hover:bg-gray-600 hover:opacity-100 transition-all ease-in-out",
+          "cursor-pointer bg-gray-700 hover:bg-gray-800 hover:opacity-100 transition-all ease-in-out",
           tag === "pen" && tag ? "opacity-100" : "opacity-50"
         )}
       >
